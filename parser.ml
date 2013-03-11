@@ -4,6 +4,11 @@
 	In our parse method, we have the IO module read, 
 	but every line we parse into our different data types. 
 *)
+
+
+(**Currently I have moved all of these methods into the 
+IO module, but that may change depending on 
+building*)
 module Parser = 
   functor (I: IO) -> 
     struct
@@ -26,6 +31,7 @@ module Parser =
         |None -> stopper := false;  
       done;
       arr
+
     end 
 
 
