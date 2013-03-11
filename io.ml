@@ -51,34 +51,43 @@ module IO =
         end 
     in
     s_help str []*)
+  (*let getFirst (str:string): char =
+    str.[0]*)
 
   (*Does not work for negatives yet *)
   let str_to_float_lst (str:string) : float list =
     let rec s_help (s:string) (a : float list) =
       if s = "" then List.rev a
-      else if String.length s < 7 then 
+      else if String.length s < 8 then 
         match s.[0] with
         | '-' -> begin
+          print_endline "first first case";
           let i = float_of_string (String.sub s 0 6) in 
           s_help "" (i::a)
         end
         | _ -> begin
+          print_endline "first second case";
           let i = float_of_string (String.sub s 0 5) in
           s_help "" (i::a)
         end
       else 
         match s.[0] with 
         |'-' -> begin
-          let tl = String.sub s 8 (String.length s -1) in
+          print_endline "second first case";
+          let tl = String.sub s 7 (String.length s -7) in
           let i = float_of_string (String.sub s 0 6) in 
           s_help tl (i::a)
         end
         | _ -> begin
-          let tl = String.sub s 7 (String.length s -1) in
+          print_endline "second second case";
           let i = float_of_string (String.sub s 0 5) in
+          (*print_endline (string_of_float i);*)
+          (*Don't forget that the last argument is the length*)
+          let tl = String.sub s 6 (String.length s -6) in
+          (*print_endline tl;*)
           s_help tl (i::a)
         end  
     in
     s_help str []     
-
+  (*We can trim to avoid whitespace*) 
   end;;
