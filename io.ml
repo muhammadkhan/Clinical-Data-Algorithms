@@ -22,22 +22,25 @@ module IO =
   
   (**takes a string of the format that we know
   and convert it to a list of floats *)
-  let str_to_float_lst (str:string) : float list =
-    let neg st = match st.[0] with |'-' -> true |_ -> false 
-    in 
-    let rec s_help (s:string) (a : float list) = 
+
+  (**There is a currently an 
+  issue in the parsing of negative*)
+  (*print_endline s; 
+      print_int (String.length s);
       match String.length s with 
       | 0 -> List.rev a
       | 5 | 6 -> 
-        if neg s then begin
+        if (s.[0] = '-') then begin
+          print_endline "entered first first case";
           let i = float_of_string (String.sub s 0 6) in
           s_help "" (i::a)
         end else begin
+          print_endline "entered second second case";
           let i = float_of_string(String.sub s 0 5) in
           s_help "" (i::a)
         end
       | _ -> 
-        if neg s then begin
+        if (s.[0] = '-') then begin
           let tl = String.sub s 8 (String.length s -1) in
           let i = float_of_string (String.sub s 0 6) in 
           s_help tl (i::a)
@@ -47,7 +50,35 @@ module IO =
           s_help tl (i::a)
         end 
     in
-    s_help str []      
+    s_help str []*)
 
+  (*Does not work for negatives yet *)
+  let str_to_float_lst (str:string) : float list =
+    let rec s_help (s:string) (a : float list) =
+      if s = "" then List.rev a
+      else if String.length s < 7 then 
+        match s.[0] with
+        | '-' -> begin
+          let i = float_of_string (String.sub s 0 6) in 
+          s_help "" (i::a)
+        end
+        | _ -> begin
+          let i = float_of_string (String.sub s 0 5) in
+          s_help "" (i::a)
+        end
+      else 
+        match s.[0] with 
+        |'-' -> begin
+          let tl = String.sub s 8 (String.length s -1) in
+          let i = float_of_string (String.sub s 0 6) in 
+          s_help tl (i::a)
+        end
+        | _ -> begin
+          let tl = String.sub s 7 (String.length s -1) in
+          let i = float_of_string (String.sub s 0 5) in
+          s_help tl (i::a)
+        end  
+    in
+    s_help str []     
 
   end;;
