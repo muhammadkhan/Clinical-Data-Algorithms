@@ -64,7 +64,8 @@ module IO =
         match r.read_next () with
         |Some s -> begin
           let (i:signal) = str_to_float_lst s in 
-          Array.set arr (!index) i; 
+          Array.set arr (!index) i;
+          index := !index + 1; 
           end
         |None ->
         stopper := false;  
