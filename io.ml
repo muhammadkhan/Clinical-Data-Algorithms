@@ -60,14 +60,14 @@ module IO =
       let arr = Array.make 40 [] in 
       let index = ref 0 in 
       let stopper = ref true in 
-      while(!stopper = true) do 
+      while(!stopper <> false) do 
         match r.read_next () with
         |Some s -> begin
           let (i:signal) = str_to_float_lst s in 
           Array.set arr (!index) i; 
           end
-        |None -> stopper := false;  
+        |None ->
+        stopper := false;  
       done;
       arr
-
   end;;
