@@ -1,4 +1,4 @@
-module P = Parser
+(*module P = Parser*)
 
 (*These are the analysis tools to monitor the data input*)
 (*Ideally the type should be of signal*)
@@ -33,8 +33,16 @@ let zero_cross (lst:float list) (v:float) =
   let convolution f g =
     (*The total number of elements in the result set*)
     let n_m = (List.length f) + (List.length g) - 1 in 
+    failwith "yeah idk"
 
-
-
-
-
+  let rec convolve_with_stencil orig k =
+    let rec stencil n =
+      match n with
+      | 0 -> []
+      | n -> if n <= (List.length orig) - k then 0.::stencil(n-1) else (1. /. (float_of_int k))::stencil(n-1)
+    in
+    let dot_p = List.fold_left2 (fun r x1 x2 -> r +. x1 *. x2) 0. in
+    if List.length orig < k then []
+    else
+      let (_,t) = match orig with [] -> failwith "no" | h::t -> h,t in
+      (dot_p orig (stencil (List.length orig)))::(convolve_with_stencil t k)
