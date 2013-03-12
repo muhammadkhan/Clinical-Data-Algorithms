@@ -2,6 +2,8 @@
 
 module IO =
   struct
+  type signal = float list
+  type data = signal array
   type reader = {read_next : unit -> string option}
   
   let make_reader (file_name : string) = 
@@ -22,8 +24,8 @@ module IO =
   
   (**takes a string of the format that we know
   and convert it to a list of floats *)
-  let str_to_float_lst (str:string) : float list =
-    let rec s_help (s:string) (a : float list) =
+  let str_to_float_lst (str:string) : signal =
+    let rec s_help (s:string) (a : signal) =
       let s = String.trim s in 
       if s = "" then List.rev a
       else if String.length s < 8 then 
@@ -49,5 +51,23 @@ module IO =
           s_help tl (i::a)
         end  
     in
-    s_help str []     
+    s_help str []
+
+    (*We will actually parse a file here *)
+    let parse (file_name : string) : data =
+      let r =  make_reader file_name in
+      (*We always initialize this to 40*) 
+      let arr = Array.make 40 [] in 
+      let index = ref 0 in 
+      let stopper = ref true in 
+      while(!stopper <> false) do 
+        match r.read_next () with
+        |Some s -> begin
+          let (i:signal) = str_to_float_lst s in 
+          Array.set arr (!index) i; 
+          end
+        |None ->
+        stopper := false;  
+      done;
+      arr
   end;;
