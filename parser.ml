@@ -28,6 +28,7 @@ module Parser =
         |Some s -> begin
           let (i:signal) = I.str_to_float_lst s in 
           Array.set arr (!index) i; 
+          index := !index + 1;
           end
         |None -> stopper := false;  
       done;
