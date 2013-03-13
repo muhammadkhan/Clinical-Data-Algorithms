@@ -38,12 +38,12 @@ let zero_cross (lst:float list) (v:float) =
 	match k with
 	| (-1) -> 0.
 	| k -> try
-		 (List.nth f k) *. (List.nth g (n - k)) +. sum (k-1)
+		 (List.nth f k) *. (List.nth g (elem - k)) +. sum (k-1)
 with _ -> sum(k-1)
       in
       sum(elem)::r
     in
-    List.fold_left func [] (List.rev(downto0 (n + m - 2)))
+    List.fold_left func [] (downto0 (n + m - 2))
 
   (*let convolve_with_stencil orig k =
     let rec stencil n =
