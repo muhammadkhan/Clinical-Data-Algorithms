@@ -88,4 +88,29 @@ let zero_cross (lst:float list) (v:float) =
         let p_d = pairwise_diff l in 
         append (helper p_a) p_d  
       end
-    in helper i  
+    in helper i
+
+  (**inverse Harr transform
+  given a Harr transform, we should be able to 
+  get the original signal from it *)
+
+  let inv_harr (i:float list) =
+    (*given pairwise avg and diff, find the two values *)
+    let gen_range a b = [(a +. b);(a -. b)] in
+    
+    let rec helper l = 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
