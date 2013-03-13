@@ -41,9 +41,6 @@ let zero_cross (lst:float list) (v:float) =
     else
       let (_,t) = match orig with [] -> failwith "no" | h::t -> h,t in
       (dot_p orig (stencil (List.length orig)))::(convolve_with_stencil t k)
-
-  let append a b = 
-    List.rev_append (List. rev a) b
   
   (*the pairwise difference function *)
   let pairwise_diff (lst:float list) = 
@@ -71,24 +68,24 @@ let zero_cross (lst:float list) (v:float) =
       end
       |h::[] -> List.rev acc
     in
-    p_a_help lst []       
+    p_a_help lst []
 
-  (**Forward harr_transform
-  *)
-  let harr_transform (i: float list) : float list = 
-    let rec helper (l: float list) = 
-      let l =  pairwise_avg 
+  let append a b = 
+    List.rev_append (List. rev a) b 
 
+  let compute (l:float list) = 
+    let i = pairwise_avg l in
+    let j = pairwise_diff l in 
+    append i j 
 
-
-
-
-
-
-
-
-
-
-
-
-
+  (*Forward harr_transform*)
+  let harr_transform (i: float list) = 
+    (*we need to establish a base case accurately*)
+    let rec helper l =
+      if List.length l = 1 then l 
+      else begin
+        let p_a = pairwise_avg l in
+        let p_d = pairwise_diff l in 
+        append (helper p_a) p_d  
+      end
+    in helper i  
