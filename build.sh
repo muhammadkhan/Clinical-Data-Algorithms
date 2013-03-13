@@ -1,7 +1,8 @@
 #!/bin/bash
 #Builds CS 5540 Project 2
 
-ocaml -c io.mli io.ml parser.mli parser.ml
+#I still need to see if this works and creates an appropriate toplevel. 
+ocaml -c io.ml parser.ml 
 if [$? -ne 0]; then
   echo 'Something here does not compile'
 else 
