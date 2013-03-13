@@ -35,11 +35,11 @@ let zero_cross (lst:float list) (v:float) =
     let rec downto0 x = if x = 0 then [0] else x::downto0(x-1) in
     let func r elem =
       let rec sum k =
-	match k with
-	| (-1) -> 0.
-	| k -> try
+	     match k with
+	     | (-1) -> 0.
+	     | k -> try
 		 (List.nth f k) *. (List.nth g (elem - k)) +. sum (k-1)
-with _ -> sum(k-1)
+      with _ -> sum(k-1)
       in
       sum(elem)::r
     in
@@ -115,11 +115,6 @@ with _ -> sum(k-1)
   let append a b = 
     List.rev_append (List. rev a) b 
 
-  let compute (l:float list) = 
-    let i = pairwise_avg l in
-    let j = pairwise_diff l in 
-    append i j 
-
   (*Forward harr_transform*)
   let harr_transform (i: float list) = 
     (*we need to establish a base case accurately*)
@@ -135,12 +130,35 @@ with _ -> sum(k-1)
   (**inverse Harr transform
   given a Harr transform, we should be able to 
   get the original signal from it *)
-
-(*  let inv_harr (i:float list) =
-    (*given pairwise avg and diff, find the two values *)
-    let gen_range a b = [(a +. b);(a -. b)] in
-    
-    let rec helper l = *)
+  let inv_harr (i:float list) = 
+    let compute (l1: float list) (l2: float list) = 
+      let gen_range a b = [(a +. b);(a -. b)] in
+      (*We can use List.fold_left2*)
+      let f a b c = 
+        let x = gen_range b c in 
+        append a x 
+      in List.fold_left2 f [] l1 l2
+    in 
+    (*Returns the first n elements of the list and the tail*)
+    let rec first_n n acc lst = 
+      if n = 0 then ((List.rev acc), lst) 
+      else 
+        match lst with 
+        (*We might have to failwith in this case*)
+        [] -> failwith "hello" 
+        |hd::tl -> first_n (n-1) (hd::acc) tl
+    in    
+    let rec inv_help acc (lst: float list) = 
+      if lst = [] then acc 
+      else begin 
+        let l = List.length acc in 
+        let (h, t) = first_n l [] lst in
+        inv_help (compute acc h) t
+      end
+    in
+    match i with 
+    |[] -> []
+    |h::t -> inv_help [h] t    
 
 
 
