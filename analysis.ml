@@ -140,19 +140,30 @@ let zero_cross (lst:float list) (v:float) =
     in
     match i with 
     |[] -> []
-    |h::t -> inv_help [h] t    
+    |h::t -> inv_help [h] t
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ let autocorrelation lst t =
+    let toEnd lst' =
+      let f (x, acc) elem =
+	if x > t then (x+1,acc)
+	else (x+1, elem::acc)
+      in
+      List.rev(snd(List.fold_left f ((-2),[]) lst'))
+    in
+    let x1 = toEnd lst in
+    let x2 = List.rev(toEnd (List.rev lst)) in
+    let correlation x y =
+      let lx = float_of_int(List.length x) in
+      let ly = float_of_int(List.length y) in
+      if lx <> ly then failwith "lists must be of equal length"
+      else
+	let ux = List.fold_left (+.) 0. (List.map (fun c -> c /. lx) x) in
+	let uy = List.fold_left (+.) 0. (List.map (fun c -> c /. ly) y) in
+	let diff_x = List.map (fun c -> c -. ux) x in
+	let diff_y = List.map (fun c -> c -. uy) y in
+	let sum2 = List.fold_left2 (fun r elem1 elem2 -> r +. elem1 *. elem2) 0. in
+	let numerator = sum2 diff_x diff_y in
+	let denominator = sqrt(sum2 diff_x diff_x) *. sqrt(sum2 diff_y diff_y) in
+	numerator /. denominator
+    in
+    correlation x1 x2
