@@ -145,10 +145,10 @@ let zero_cross (lst:float list) (v:float) =
  let autocorrelation lst t =
     let toEnd lst' =
       let f (x, acc) elem =
-	if x > t then (x+1,acc)
-	else (x+1, elem::acc)
+	      if x > t then (x+1,acc)
+	      else (x+1, elem::acc)
       in
-      List.rev(snd(List.fold_left f ((-2),[]) lst'))
+    List.rev(snd(List.fold_left f ((-2),[]) lst'))
     in
     let x1 = toEnd lst in
     let x2 = List.rev(toEnd (List.rev lst)) in
