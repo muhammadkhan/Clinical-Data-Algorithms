@@ -3,6 +3,11 @@
 (*These are the analysis tools to monitor the data input*)
 (*Ideally the type should be of signal*)
 
+(*Chooses a random *)
+let choose_rand (d:float list array) : float list = 
+  let x = Random.int 40 in 
+  Array.get d x 
+
 (*Should really see if we are able to do this as a list folding *)
 let zero_cross (lst:float list) (v:float) = 
   let compare a b = 
@@ -45,46 +50,6 @@ let zero_cross (lst:float list) (v:float) =
     in
     List.fold_left func [] (downto0 (n + m - 2))
 
-  (*let convolve_with_stencil orig k =
-    let rec stencil n =
-      match n with
-      | 0 -> []
-      | n -> if n <= (List.length orig) - k then 0.::stencil(n-1) else (1. /. (float_of_int k))::stencil(n-1)
-    in
-    let mystencil = stencil k in
-    let f (n, lst) elem =
-      let rec sum m =
-	match m with
-	| (-1) -> 0.
-	| m -> if m >= List.length mystencil || n < m || n >= m + List.length mystencil then
-            sum (m-1)
-          else
-            (List.nth mystencil m) *. (List.nth orig (n - m)) +. sum(m-1)
-      in
-      (n+1, (sum(n))::lst)
-    in
-    let rec downto1 num =
-      match num with
-      | 1 -> [1]
-      | x -> x::downto1(num-1)
-    in
-    snd (List.fold_left f (0,[]) (List.rev(downto1 (List.length orig)))) 
-
-  (**I believe that this is 
-  the mean filter, but we need*)
-  let rec convolve_with_stencil orig k =
-    let rec stencil n =
-      match n with
-      | 0 -> []
-      | n -> if n <= (List.length orig) - k then 0.::stencil(n-1) else (1. /. (float_of_int k))::stencil(n-1)
-    in
-    let dot_p = List.fold_left2 (fun r x1 x2 -> r +. x1 *. x2) 0. in
-    if List.length orig < k then []
-    else
-      let (_,t) = match orig with [] -> failwith "no" | h::t -> h,t in
-      (dot_p orig (stencil (List.length orig)))::(convolve_with_stencil t k)*)
-  
-  (*the pairwise difference function *)
   let pairwise_diff (lst:float list) = 
     let rec p_d_help (ls: float list) (acc : float list) : float list =
       let diff a b = (a -. b) /. 2.0 in
@@ -114,6 +79,31 @@ let zero_cross (lst:float list) (v:float) =
 
   let append a b = 
     List.rev_append (List. rev a) b 
+   
+  let first_n n l =  
+    let rec f_n_help n acc lst = 
+      if n = 0 then ((List.rev acc), lst) 
+      else 
+        match lst with 
+        (*We might have to failwith in this case*)
+        [] -> failwith "hello" 
+        |hd::tl -> f_n_help (n-1) (hd::acc) tl
+    in
+    f_n_help n [] l    
+
+  (*reduces a list to its greatest power of two*)
+  let reduce_2n (l: float list) = 
+    let rec n2_help acc lst =
+      let a = List.length acc in 
+      if List.length lst < a then acc
+      else begin
+        let (x,t) = first_n a lst in 
+        n2_help (append acc x) t
+      end
+    in
+    match l with 
+    [] -> []
+    |h::t -> n2_help [h] t   
 
   (*Forward harr_transform*)
   let harr_transform (i: float list) = 
@@ -139,20 +129,12 @@ let zero_cross (lst:float list) (v:float) =
         append a x 
       in List.fold_left2 f [] l1 l2
     in 
-    (*Returns the first n elements of the list and the tail*)
-    let rec first_n n acc lst = 
-      if n = 0 then ((List.rev acc), lst) 
-      else 
-        match lst with 
-        (*We might have to failwith in this case*)
-        [] -> failwith "hello" 
-        |hd::tl -> first_n (n-1) (hd::acc) tl
-    in    
+    (*Returns the first n elements of the list and the tail*)  
     let rec inv_help acc (lst: float list) = 
       if lst = [] then acc 
       else begin 
         let l = List.length acc in 
-        let (h, t) = first_n l [] lst in
+        let (h, t) = first_n l lst in
         inv_help (compute acc h) t
       end
     in
