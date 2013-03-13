@@ -28,13 +28,8 @@ let zero_cross (lst:float list) (v:float) =
   in
   helper lst []
 
-  (**Takes in two vectors, which are float lists and outputs
-  the convolution of the two *)
-  let convolution f g =
-    (*The total number of elements in the result set*)
-    let n_m = (List.length f) + (List.length g) - 1 in 
-    failwith "yeah idk"
-
+  (**I believe that this is 
+  the mean filter, but we need*)
   let rec convolve_with_stencil orig k =
     let rec stencil n =
       match n with
@@ -46,3 +41,54 @@ let zero_cross (lst:float list) (v:float) =
     else
       let (_,t) = match orig with [] -> failwith "no" | h::t -> h,t in
       (dot_p orig (stencil (List.length orig)))::(convolve_with_stencil t k)
+
+  let append a b = 
+    List.rev_append (List. rev a) b
+  
+  (*the pairwise difference function *)
+  let pairwise_diff (lst:float list) = 
+    let rec p_d_help (ls: float list) (acc : float list) : float list =
+      let diff a b = (a -. b) /. 2.0 in
+      match ls with 
+      |[] -> List.rev acc
+      |h1::h2::tl -> begin
+        let i = diff h1 h2 in 
+        p_d_help tl (i::acc)
+      end
+      |h::[] -> List.rev acc
+    in
+    p_d_help lst []  
+   
+  (*the pairwise average function *) 
+  let pairwise_avg (lst: float list) =  
+    let rec p_a_help (ls: float list) (acc: float list) : float list = 
+      let average a b = (a +. b) /. 2.0 in 
+      match ls with
+      |[] -> List.rev acc 
+      |h1::h2::tl -> begin
+        let i = average h1 h2 in 
+        p_a_help tl (i::acc)
+      end
+      |h::[] -> List.rev acc
+    in
+    p_a_help lst []       
+
+  (**Forward harr_transform
+  *)
+  let harr_transform (i: float list) : float list = 
+    let rec helper (l: float list) = 
+      let l =  pairwise_avg 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
