@@ -30,5 +30,5 @@ let c3' = Analysis.convolution s c3
   Array.of_list (List.map f lst)*)
 
 let run () = 
-  Io.write_strs_to_file (List.map Io.signal_to_string [c1;c1';c2;c2';c3;c3']) "out.txt";
+  Io.write_strs_to_file (List.map Io.signal_to_string [c1;c1';c2;c2';c3;c3']) "meanfilter.txt";
   print_endline "File written!"
