@@ -6,7 +6,7 @@ ocamlc -c io.ml data_parser.ml analysis.ml mean_filter.ml
 if [$? -ne 0]; then
   echo 'Something here does not compile'
 else 
-  ocamlmktop -o toplevel.exe graphics.cma io.cmo data_parser.cmo analysis.cmo mean_filter.cmo
+  ocamlmktop -o toplevel.exe io.cmo data_parser.cmo analysis.cmo mean_filter.cmo
   if [$? -ne 0]; then
     echo 'Something here does not compile'
   else  

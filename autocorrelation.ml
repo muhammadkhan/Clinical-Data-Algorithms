@@ -32,6 +32,8 @@ let correlograms_w_filter (s:string) =
   (**compute the initial correlograms here too,
    might need to define another function in analysis.ml
    FINISH MUHAMMAD*)
+
+  (*the prime ones are the smoothed signals*)
   let m = M.to_stencil 3 in
   let s1' = A.convolution m s1 in
   let s2' = A.convolution m s2 in
@@ -41,7 +43,7 @@ let correlograms_w_filter (s:string) =
   and then use your Io.write_strs_to_file function
   FINISH MUHAMMAD*)
 
-   
+
 
 	
     

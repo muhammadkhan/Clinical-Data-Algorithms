@@ -7,19 +7,9 @@ let to_stencil k =
   in
   helper k
 
-let all_data = P.parse "CS5540_ecog(txt).txt"
+let all_data (s:string) = P.parse s
 
 (*Part 1*)
-
-let c1 = Analysis.choose_rand all_data
-let c2 = Analysis.choose_rand all_data
-let c3 = Analysis.choose_rand all_data
-
-let s = to_stencil 3
-
-let c1' = Analysis.convolution s c1
-let c2' = Analysis.convolution s c2
-let c3' = Analysis.convolution s c3
 
 (*let intify (lst : float list) : (int*int) array =
   let i = ref (-1) in
@@ -29,6 +19,18 @@ let c3' = Analysis.convolution s c3
   in
   Array.of_list (List.map f lst)*)
 
-let run () = 
+
+(**I did it this way so that we are able to run multiple 
+trials without having to build every time.*)
+let mean_filter (s:string) = 
+  let c1 = Analysis.choose_rand (all_data s) in
+  let c2 = Analysis.choose_rand (all_data s) in
+  let c3 = Analysis.choose_rand (all_data s) in
+
+  let k = to_stencil 3 in  
+
+  let c1' = Analysis.convolution k c1
+  let c2' = Analysis.convolution k c2
+  let c3' = Analysis.convolution k c3
   Io.write_strs_to_file (List.map Io.signal_to_string [c1;c1';c2;c2';c3;c3']) "meanfilter.txt";
   print_endline "File written!"

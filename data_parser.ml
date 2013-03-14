@@ -17,6 +17,8 @@ module DataParser =
 
     (*There just needs to be an empty line at the 
     end of the file*)
+    (**We should be able to simply add onto the array, 
+    not initialize it to length 40 all the time*)
     let parse (file_name : string) : data =
       let r : I.reader =  I.make_reader file_name in
       (*We always initialize this to 40*) 
