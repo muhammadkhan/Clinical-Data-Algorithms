@@ -18,6 +18,7 @@ Things to do:
 -Make the parser able to take in a text file of any length
 (cannot have empty spaces in the array, I think this just means we add, instead of initializing it to 40)
 -make the corellograms function in analysis.ml (MUHAMMAD)
+-update the build script so that we compile all of the files 
 
 -create the matlab script (MUHAMMAD)
 -clean up all of the comments in the code. 
