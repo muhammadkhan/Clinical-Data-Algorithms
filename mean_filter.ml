@@ -7,7 +7,7 @@ let to_stencil k =
   in
   helper k
 
-let all_data = P.parse "test.txt"
+let all_data = P.parse "CS5540_ecog(txt).txt"
 
 (*Part 1*)
 
@@ -21,14 +21,14 @@ let c1' = Analysis.convolution s c1
 let c2' = Analysis.convolution s c2
 let c3' = Analysis.convolution s c3
 
-let intify (lst : float list) : (int*int) array =
+(*let intify (lst : float list) : (int*int) array =
   let i = ref (-1) in
   let f (fl : float) =
     incr i;
     (10*(!i), 150*(int_of_float fl))
   in
-  Array.of_list (List.map f lst)
+  Array.of_list (List.map f lst)*)
 
 let run () = 
-  Graphics.open_graph "";
-  Graphics.plots (intify (Array.get all_data 0));
+  Io.write_strs_to_file (List.map Io.signal_to_string [c1;c1';c2;c2';c3;c3']) "out.txt";
+  print_endline "File written!"

@@ -26,7 +26,7 @@ module DataParser =
       while(!stopper <> false) do 
         match (r.I.read_next()) with
         |Some s -> begin
-          let (i:signal) = List.tl(I.str_to_float_lst s) in 
+          let (i:signal) = I.str_to_float_lst s in 
           Array.set arr (!index) i; 
           index := !index + 1;
           end

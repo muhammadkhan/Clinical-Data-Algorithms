@@ -19,6 +19,19 @@
             let _ = closed := true in
             None in
   {read_next = read_next_line}
+
+  let signal_to_string s =
+    let str_lst = List.map (fun fl -> string_of_float fl) s in
+    let f r elem =
+      if String.length r = 0 then elem
+      else r ^ (" " ^ elem)
+    in
+    List.fold_left f "" str_lst
+		
+  let write_strs_to_file strs filename =
+    let oc = open_out filename in
+    List.iter (Printf.fprintf oc "%s\n") strs;
+    close_out oc
   
   (**takes a string of the format that we know
   and convert it to a list of floats *)

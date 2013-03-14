@@ -5,7 +5,7 @@ module P = Data_parser.DataParser
 
 (*Chooses a random *)
 let choose_rand (d:float list array) : float list = 
-  let x = Random.int 40 in 
+  let x = Random.int (Array.length d) in 
   Array.get d x 
 
 (*Should really see if we are able to do this as a list folding *)
