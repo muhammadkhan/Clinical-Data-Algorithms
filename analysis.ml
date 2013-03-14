@@ -1,4 +1,4 @@
-(*module P = Parser*)
+module P = Data_parser.DataParser
 
 (*These are the analysis tools to monitor the data input*)
 (*Ideally the type should be of signal*)

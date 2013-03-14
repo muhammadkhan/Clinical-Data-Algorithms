@@ -1,12 +1,10 @@
 (*This is the module to handle all of the IO for this CS 5540 project *)
 
-module IO =
-  struct
   type signal = float list
   type data = signal array
   type reader = {read_next : unit -> string option}
   
-  let make_reader (file_name : string) = 
+  let make_reader (file_name : string):reader = 
     let in_channel = open_in file_name in 
     let closed = ref false in 
     let read_next_line = fun () ->
@@ -71,4 +69,3 @@ module IO =
         stopper := false;  
       done;
       arr
-  end;;
