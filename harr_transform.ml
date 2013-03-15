@@ -10,25 +10,10 @@ module M = Mean_filter
 
 let all_data (s:string) = P.parse s 
 
-(*Calculates the difference score between the two waves
-s1 is the set wave, we are calculating s2's deviation from it*)
-(*let diff_score (s1:P.signal) (s2: P.signal) = 
-  let f a b c = 
-    a +. abs_float (b -. c)
-  in List.fold_left2 0. s1 s2*)
-
 (*computes the harr coefficients of a given signal *)
 let harr (p:P.signal) : P.signal = 
   let x = A.reduce_2n p in 
   A.harr_trans x 
-
-(*calculates the difference score between a harr_transform and 
-its inverse Harr transform*)
-(*let compare_harr (p: P.signal) : float =
-  let red = A.reduce_2n p in 
-  let h_f = harr red in 
-  let h_i = A.inv_harr h_f in 
-  diff_score h_f h_i *)
 
 (*------Now we use the Mean Filter to smooth------*)
 let smoother_harr (p: P.signal) : P.signal = 
@@ -70,18 +55,3 @@ let check_harr_inv (s:string) =
   let c2' = A.inv_harr (harr c2) in 
   Io.write_strs_to_file (List.map Io.signal_to_string [c1;c1';c2;c2']) "harr_valid.txt";
   print_endline "File written!"
-
-
-
-
-
-
-
-
-  
-
-  
-
-
-
-
