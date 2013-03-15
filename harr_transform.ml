@@ -13,7 +13,7 @@ let all_data (s:string) = P.parse s
 (*computes the harr coefficients of a given signal *)
 let harr (p:P.signal) : P.signal = 
   let x = A.reduce_2n p in 
-  A.harr_trans x 
+  A.harr_transform x 
 
 (*------Now we use the Mean Filter to smooth------*)
 let smoother_harr (p: P.signal) : P.signal = 

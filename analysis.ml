@@ -1,5 +1,3 @@
-module P = Data_parser.DataParser
-
 (*These are the analysis tools to monitor the data input*)
 (*Ideally the type should be of signal*)
 
@@ -46,7 +44,9 @@ let zero_cross (lst:float list) (v:float) =
 		 (List.nth f k) *. (List.nth g (elem - k)) +. sum (k-1)
       with _ -> sum(k-1)
       in
-      sum(elem)::r
+      let x = sum(elem) in
+      print_int elem; print_string " : "; print_float x; print_endline "";
+      x::r
     in
     List.fold_left func [] (downto0 (n + m - 2))
 

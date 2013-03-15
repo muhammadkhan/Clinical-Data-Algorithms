@@ -7,9 +7,22 @@ let to_stencil k =
   in
   helper k
 
-let all_data (s:string) = P.parse s
+let all_data = P.parse "test.txt"
 
 (*Part 1*)
+(*
+let c1 = (print_endline "parsed!"; Analysis.choose_rand all_data)
+let c2 = Analysis.choose_rand all_data
+let c3 = Analysis.choose_rand all_data*)
+
+let s = to_stencil 3
+(*
+let c1' = Analysis.convolution s c1
+let c2' = Analysis.convolution s c2
+let c3' = Analysis.convolution s c3*)
+
+let x1 = (print_endline "parsed!"; Array.get all_data 0)
+let x1' = (print_endline "got x1"; Analysis.convolution s x1)
 
 (*let intify (lst : float list) : (int*int) array =
   let i = ref (-1) in
@@ -18,19 +31,7 @@ let all_data (s:string) = P.parse s
     (10*(!i), 150*(int_of_float fl))
   in
   Array.of_list (List.map f lst)*)
-
-
-(**I did it this way so that we are able to run multiple 
-trials without having to build every time.*)
-let mean_filter (s:string) = 
-  let c1 = Analysis.choose_rand (all_data s) in
-  let c2 = Analysis.choose_rand (all_data s) in
-  let c3 = Analysis.choose_rand (all_data s) in
-
-  let k = to_stencil 3 in  
-
-  let c1' = Analysis.convolution k c1
-  let c2' = Analysis.convolution k c2
-  let c3' = Analysis.convolution k c3
-  Io.write_strs_to_file (List.map Io.signal_to_string [c1;c1';c2;c2';c3;c3']) "meanfilter.txt";
+let () = print_endline "convolved"
+let run () = 
+  Io.write_strs_to_file (List.map Io.signal_to_string [x1;x1']) "out.txt";
   print_endline "File written!"
