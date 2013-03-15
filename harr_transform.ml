@@ -22,12 +22,6 @@ let smoother_harr (p: P.signal) : P.signal =
   let c = A.convolution x p in
   harr c 
 
-(** Now that we have this, we are able to make a run function
-	which will take in one of these other functions and output it to 
-	a text file. This will showcase our adaptability to 
-	get the different results that we need from one set of functions.
-*)
-
 (**Chooses 3 signals from all the data,
 and then compare regular harr to using the difference between 
 a regular harr transform and one with a filter*)
