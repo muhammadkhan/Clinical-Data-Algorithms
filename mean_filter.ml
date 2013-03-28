@@ -31,9 +31,9 @@ let c3' = Analysis.convolution s c3*)
   in
   Array.of_list (List.map f lst)*)
 let meanfilter (s:string) = 
-  let l = to_stencil 3
-  let x1 = (print_endline "parsed!"; Array.get (all_data s) 0)
-  let x1' = (print_endline "got x1"; Analysis.convolution l x1)
-  let () = print_endline "convolved"
+  let l = to_stencil 3 in 
+  let x1 = (print_endline "parsing!"; Array.get (all_data s) 0) in 
+  let x1' = (print_endline "got x1"; Analysis.convolution l x1) in 
+  print_endline "convolved";
   Io.write_strs_to_file (List.map Io.signal_to_string [x1;x1']) "meanfilter.txt";
-  print_endline "File written!"
+  print_endline "File written!";

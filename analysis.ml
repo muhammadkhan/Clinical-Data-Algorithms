@@ -108,14 +108,18 @@ let zero_cross (lst:float list) (v:float) =
   (*Forward harr_transform*)
   let harr_transform (i: float list) = 
     (*we need to establish a base case accurately*)
+    let x = reduce_2n i in 
+    print_endline "reduced";
     let rec helper l =
-      if List.length l = 1 then l 
-      else begin
+      match l with
+      | h::[] -> print_endline "reached base case"; l
+      | _ -> begin
+        print_endline "recursive case";
         let p_a = pairwise_avg l in
         let p_d = pairwise_diff l in 
         append (helper p_a) p_d  
       end
-    in helper i
+    in helper x
 
   (**inverse Harr transform
   given a Harr transform, we should be able to 
